@@ -3,8 +3,10 @@ package gui;
 
 public class GUIString {
 
+    public static final String TITTLE = "TN3270 Tareas.c Wrapper";
+
     public static final String ADD_BTN = "Add task";
-    public static final String LIST_BTN = "List tasks";
+
 
     public static final String ADD_TITTLE = "Add new task";
 
@@ -17,8 +19,10 @@ public class GUIString {
     public static final String DESC_INPUT = "Enter description:";
     public static final String NAME_INPUT = "Enter name:\n*Empy for general tasks";
 
-    public static final String[] TABLE_COLS = {"Type","Date", "Name" ,"Description"};
-    public static final String TASKS_LIST_LABEL = "Task List";
+    public static final String[] TABLE_COLS = {"Date", "Name" ,"Description"};
+    public static final String[] TABLE_COLS_GENERAL = {"Date" ,"Description"};
+    public static final String TASKS_LIST_LABEL_GENERAL = "General task list";
+    public static final String TASKS_LIST_LABEL_SPECIFIC = "Specific task list";
 
 
     public static final String SHORT_TYPE = "Type";

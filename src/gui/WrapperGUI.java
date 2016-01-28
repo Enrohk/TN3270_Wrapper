@@ -6,52 +6,41 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class WrapperGUI extends JPanel {
 
-    private JPanel tablePanel = new JPanel();
+public class WrapperGUI extends JPanel {
 
     public WrapperGUI(){
 
         this.setLayout(new BorderLayout());
 
         JPanel btnPanel = new JPanel();
-        this.addBtns(btnPanel);
+
+        this.addBtn(btnPanel);
 
         this.add(btnPanel,BorderLayout.SOUTH);
-        this.add(tablePanel,BorderLayout.CENTER);
 
+        this.add(new TasksGUIPanel(),BorderLayout.CENTER);
 
     }
 
 
-
-    private void addBtns(JPanel panel){
+    private void addBtn(JPanel panel){
 
         JButton addBtn = new JButton(GUIString.ADD_BTN);
         addBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                actionsGUI.addTask();
-                updateTaskTable();
-            }
-        });
-        JButton listBtn = new JButton(GUIString.LIST_BTN);
-        listBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateTaskTable();
+                ActionsGUI.addTask();
+                validateAndRepaint();
             }
         });
 
         panel.add(addBtn);
-        panel.add(listBtn);
+
     }
 
-    private void updateTaskTable(){
-        tablePanel.removeAll();
-        tablePanel.add(actionsGUI.getTableTasks());
+    private void validateAndRepaint(){
         this.validate();
         this.repaint();
     }
-
 }

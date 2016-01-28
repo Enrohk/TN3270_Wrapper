@@ -25,4 +25,6 @@ public class WrapperCodes {
     public static final String MORE = "More...";
     public static final String WORKING = "Working";
     public static final String TASK = "TASK";
+    public static final String SPECIFIC_TASK = "SPECIFIC";
+    public static final String GENERAL_TASK = "GENERAL";
 }

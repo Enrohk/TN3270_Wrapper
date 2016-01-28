@@ -13,7 +13,8 @@ public class Wrapper {
     private static BufferedReader read;
     private static PrintWriter write;
     private static Process s3270;
-    private static List<Task> taskList = new ArrayList<Task>();
+    private static List<Task> specificTaskList = new ArrayList<Task>();
+    private static List<Task> generalTaskList = new ArrayList<Task>();
 
     public static void startS3270() throws IOException {
         s3270 =  Runtime.getRuntime().exec(WrapperCodes.PROGRAM_NAME);
@@ -32,6 +33,9 @@ public class Wrapper {
      */
     public static void addTask(String name, String date, String desc){
 
+
+
+
         writeInS3270(WrapperCodes.click(1), false);             //ASIGN TASK
         enter_printtext();
 
@@ -41,6 +45,7 @@ public class Wrapper {
         }
         //SPECIFIC TASK
         else{
+            name = removeSpaces(name);
             writeInS3270(WrapperCodes.click(2), false);         //SPECIFIC TASK
         }
 
@@ -54,7 +59,7 @@ public class Wrapper {
             writeInS3270(WrapperCodes.enterString(name),false); //Enter name
             enter_printtext();
         }
-
+        desc = removeSpaces(desc);
         writeInS3270(WrapperCodes.enterString(desc),false);     //Enter desc
         enter_printtext();
 
@@ -97,6 +102,14 @@ public class Wrapper {
 
     }
 
+    public static List<Task> getSpecificTasks() {
+        return specificTaskList;
+    }
+
+    public static List<Task> getGeneralTasks() {
+        return generalTaskList;
+    }
+
     private static void enter_printtext(){
         writeInS3270(WrapperCodes.ENTER,false);
         writeInS3270(WrapperCodes.PRINTTEXT, true);
@@ -137,7 +150,6 @@ public class Wrapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private static void handleResponse(String line, boolean debug) {
@@ -153,15 +165,28 @@ public class Wrapper {
     private static void taskParser(String line, boolean debug) {
         if(debug && line.indexOf(WrapperCodes.TASK) == 6) {
             Task newTask = Task.parseTaskFromCL(line.substring(6));
-            try {
-                if (taskList.get(newTask.getId()) == null) {
-                    taskList.add(newTask.getId(), newTask);
-                }
-            }catch(Exception e){
-                taskList.add(newTask.getId(), newTask);
+
+            switch (newTask.getType()){
+                case WrapperCodes.SPECIFIC_TASK:
+                    addTaskToList(specificTaskList,newTask);
+                    break;
+                default:
+                    addTaskToList(generalTaskList, newTask);
+                    break;
             }
         }
     }
+
+    private static void addTaskToList(List<Task> taskListToAdd, Task task){
+        try {
+            if (taskListToAdd.get(task.getId()) == null) {
+                taskListToAdd.add(task.getId(), task);
+            }
+        }catch(Exception e){
+            taskListToAdd.add(task.getId(), task);
+        }
+    }
+
 
     private static String removeSpaces(String s){
         s.replaceAll(" ","_");
@@ -170,15 +195,4 @@ public class Wrapper {
         s.replaceAll("\r","_");
         return s;
     }
-
-    public static void printTasks(){
-        for(Task t : taskList){
-            System.out.println(t.getName());
-        }
-    }
-
-    public static List<Task> getTaskList(){
-        return taskList;
-    }
-
 }

@@ -1,6 +1,6 @@
 package gui;
 
-import javax.print.DocFlavor;
+import wrapper.WrapperCodes;
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,28 +8,71 @@ import java.awt.*;
 public class TasksGUIPanel extends JPanel {
 
     private ButtonGroup shortCriteria;
+    private JPanel specificTasks, generalTasks;
 
-    public TasksGUIPanel(String[][] rows, String[] cols){
-        this.setLayout(new BorderLayout());
-        this.add(new JLabel(GUIString.TASKS_LIST_LABEL), BorderLayout.NORTH);
+    public TasksGUIPanel(){
+        this.setLayout( new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.add(addShortCriteriaPanel(),BorderLayout.SOUTH);
+        JPanel specificTaskPanel = new JPanel();
+        JPanel generalTaskPanel = new JPanel();
 
-        JPanel l = new JPanel();
-        l.setLayout(new BoxLayout(l, BoxLayout.Y_AXIS));
-        String s = "";
-        for(String[] row : rows){
-            for(String col: row){
-                s = s + col;
-            }
-            l.add(new JLabel(s));
-            s = "";
+        specificTaskPanel.setLayout(new BorderLayout());
+        generalTaskPanel.setLayout(new BorderLayout());
+
+
+        specificTaskPanel.add(new JLabel(WrapperCodes.SPECIFIC_TASK, JLabel.CENTER), BorderLayout.NORTH);
+        generalTaskPanel.add(new JLabel(WrapperCodes.GENERAL_TASK, JLabel.CENTER),BorderLayout.NORTH);
+
+        specificTaskPanel.add(addShortCriteriaPanel(),BorderLayout.SOUTH);
+
+        JPanel generalCenter = new JPanel();
+        generalCenter.setLayout(new BorderLayout());
+
+        JPanel generalLabelTitle = new JPanel();
+        generalLabelTitle.setLayout(new GridLayout(0,2));
+        for(String col: GUIString.TABLE_COLS_GENERAL){
+            generalLabelTitle.add(new JLabel(col,JLabel.CENTER));
         }
 
-        this.add(l,BorderLayout.CENTER);
+        generalCenter.add(generalLabelTitle,BorderLayout.NORTH);
 
+        JPanel specificCenter = new JPanel();
+        specificCenter.setLayout(new BorderLayout());
+
+        JPanel specificLabelTitle = new JPanel();
+        specificLabelTitle.setLayout(new GridLayout(0,3));
+        for(String col: GUIString.TABLE_COLS){
+            specificLabelTitle.add(new JLabel(col,JLabel.CENTER));
+        }
+
+        specificCenter.add(specificLabelTitle,BorderLayout.NORTH);
+
+        createTasksPanels(generalCenter, specificCenter);
+
+        generalTaskPanel.add(generalCenter, BorderLayout.CENTER);
+        specificTaskPanel.add(specificCenter, BorderLayout.CENTER);
+
+        this.add(generalTaskPanel);
+        this.add(specificTaskPanel);
+
+        ActionsGUI.setPanels(specificTasks, generalTasks);
 
     }
+
+    private void createTasksPanels(JPanel panel1, JPanel panel2){
+        specificTasks = new JPanel();
+        specificTasks.setLayout(new GridLayout(0,3));
+        specificTasks.setBorder(BorderFactory.createLineBorder(Color.black));
+        JScrollPane specificScroll = new JScrollPane(specificTasks);
+        panel2.add(specificScroll,BorderLayout.CENTER);
+
+        generalTasks = new JPanel();
+        generalTasks.setLayout(new GridLayout(0,2));
+        generalTasks.setBorder(BorderFactory.createLineBorder(Color.black));
+        JScrollPane generalScroll = new JScrollPane(generalTasks);
+        panel1.add(generalScroll,BorderLayout.CENTER);
+    }
+
 
     private JPanel addShortCriteriaPanel() {
         shortCriteria = new ButtonGroup();
@@ -37,19 +80,15 @@ public class TasksGUIPanel extends JPanel {
 
         shortCriteriaPanel.add(new JLabel(GUIString.SHORT_LABEL));
 
-        JRadioButton type = new JRadioButton(GUIString.SHORT_TYPE);
-        type.setActionCommand(GUIString.SHORT_TYPE);
         JRadioButton date = new JRadioButton(GUIString.SHORT_DATE);
         date.setActionCommand(GUIString.SHORT_DATE);
         JRadioButton name = new JRadioButton(GUIString.SHORT_NAME);
         name.setActionCommand(GUIString.SHORT_NAME);
 
-        type.setSelected(true);
+        date.setSelected(true);
 
-        shortCriteria.add(type);
         shortCriteria.add(date);
         shortCriteria.add(name);
-        shortCriteriaPanel.add(type);
         shortCriteriaPanel.add(date);
         shortCriteriaPanel.add(name);
         return shortCriteriaPanel;

@@ -1,5 +1,6 @@
 package main;
 
+import gui.GUIString;
 import gui.WrapperGUI;
 import wrapper.Wrapper;
 
@@ -13,12 +14,13 @@ public class Main {
             {
                 try {
                     Wrapper.startS3270();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                     Wrapper.exit();
                     System.exit(-1);
                 }
-                JFrame frame = new JFrame();
+                JFrame frame = new JFrame(GUIString.TITTLE);
                 frame.add(new WrapperGUI());
                 frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 frame.setSize(1000,1000);

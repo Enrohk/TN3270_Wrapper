@@ -1,28 +1,17 @@
 package gui;
 
-
 import tasks.Task;
 import wrapper.Wrapper;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.List;
 
-public class actionsGUI{
+public class ActionsGUI {
 
     private static JTextField name = new JTextField();
     private static JTextField date = new JTextField();
     private static JTextArea desc = new JTextArea();
-
-    public static Container getTableTasks(){
-
-        List<Task> l=Wrapper.getTaskList();
-
-        String[][] dd = {l.get(0).getStringTask()};
-
-        return new TasksGUIPanel(dd,GUIString.TABLE_COLS);
-    }
+    private static JPanel generalTasksPanel, specificTasksPanel;
 
     public static void addTask() {
         clearFields();
@@ -42,11 +31,37 @@ public class actionsGUI{
 
             if(nameS.equals("")) nameS = null;
             Wrapper.addTask(nameS,dateS,descS);
-            System.err.println("NAME_"+nameS);
-            System.err.println("DATE_"+dateS);
-            System.err.println("DESC_"+descS);
         }
-        Wrapper.printTasks();
+
+    }
+
+    public static void setPanels(JPanel specific, JPanel general){
+        generalTasksPanel = general;
+        specificTasksPanel = specific;
+    }
+
+    public static void updateGeneralPanel(){
+        generalTasksPanel.removeAll();
+        JLabel date, desc;
+        for(Task task : Wrapper.getSpecificTasks()){
+            date = new JLabel(task.getDate(),JLabel.CENTER);
+            desc = new JLabel(task.getDesc(),JLabel.CENTER);
+            specificTasksPanel.add(date);
+            specificTasksPanel.add(desc);
+        }
+    }
+
+    public static void updateSpecificPanel(){
+        specificTasksPanel.removeAll();
+        JLabel date, name, desc;
+        for(Task task : Wrapper.getSpecificTasks()){
+            date = new JLabel(task.getDate(),JLabel.CENTER);
+            name = new JLabel(task.getName(),JLabel.CENTER);
+            desc = new JLabel(task.getDesc(),JLabel.CENTER);
+            specificTasksPanel.add(date);
+            specificTasksPanel.add(name);
+            specificTasksPanel.add(desc);
+        }
     }
 
     private static void clearFields(){
@@ -60,6 +75,5 @@ public class actionsGUI{
         desc.setBorder(BorderFactory.createCompoundBorder(border,
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
     }
-
 
 }

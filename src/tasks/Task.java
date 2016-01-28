@@ -42,19 +42,16 @@ public class Task {
 
     public static Task parseTaskFromCL(String substring) {
         Scanner s = new Scanner(substring);
-        s.useDelimiter("\\s|\n|:");
-        s.next();
-        int id = s.nextInt();
-        String type = s.next().trim();
-        String date = s.next().trim();
-        String name = s.next().trim();
-        String desc = s.nextLine();
+        s.useDelimiter(" ");
+        s.next();                           //Skip TASK
+        String idS = s.next();               //get id
+        int id = Integer.parseInt(idS.substring(0,1));
+        String type = s.next().trim();      //get type
+        String date = s.next().trim();      //get date
+        String name = s.next().trim();      //get name
+        String desc = s.nextLine();         //get desc
         s.close();
 
         return new Task(name,date,desc,type,id);
-    }
-
-    public String[] getStringTask(){
-        return new String[]{"name "+name,"date "+date,"desc "+desc,"type "+type, "id "+id};
     }
 }
