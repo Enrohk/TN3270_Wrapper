@@ -21,15 +21,5 @@ public class GUIString {
 
     public static final String[] TABLE_COLS = {"Date", "Name" ,"Description"};
     public static final String[] TABLE_COLS_GENERAL = {"Date" ,"Description"};
-    public static final String TASKS_LIST_LABEL_GENERAL = "General task list";
-    public static final String TASKS_LIST_LABEL_SPECIFIC = "Specific task list";
-
-
-    public static final String SHORT_TYPE = "Type";
-
-    public static final String SHORT_DATE = "Date";
-    public static final String SHORT_NAME = "Name";
-    public static final String SHORT_LABEL = "Short by: ";
-
 
 }

@@ -7,7 +7,6 @@ import java.awt.*;
 
 public class TasksGUIPanel extends JPanel {
 
-    private ButtonGroup shortCriteria;
     private JPanel specificTasks, generalTasks;
 
     public TasksGUIPanel(){
@@ -22,8 +21,6 @@ public class TasksGUIPanel extends JPanel {
 
         specificTaskPanel.add(new JLabel(WrapperCodes.SPECIFIC_TASK, JLabel.CENTER), BorderLayout.NORTH);
         generalTaskPanel.add(new JLabel(WrapperCodes.GENERAL_TASK, JLabel.CENTER),BorderLayout.NORTH);
-
-        specificTaskPanel.add(addShortCriteriaPanel(),BorderLayout.SOUTH);
 
         JPanel generalCenter = new JPanel();
         generalCenter.setLayout(new BorderLayout());
@@ -71,26 +68,5 @@ public class TasksGUIPanel extends JPanel {
         generalTasks.setBorder(BorderFactory.createLineBorder(Color.black));
         JScrollPane generalScroll = new JScrollPane(generalTasks);
         panel1.add(generalScroll,BorderLayout.CENTER);
-    }
-
-
-    private JPanel addShortCriteriaPanel() {
-        shortCriteria = new ButtonGroup();
-        JPanel shortCriteriaPanel = new JPanel();
-
-        shortCriteriaPanel.add(new JLabel(GUIString.SHORT_LABEL));
-
-        JRadioButton date = new JRadioButton(GUIString.SHORT_DATE);
-        date.setActionCommand(GUIString.SHORT_DATE);
-        JRadioButton name = new JRadioButton(GUIString.SHORT_NAME);
-        name.setActionCommand(GUIString.SHORT_NAME);
-
-        date.setSelected(true);
-
-        shortCriteria.add(date);
-        shortCriteria.add(name);
-        shortCriteriaPanel.add(date);
-        shortCriteriaPanel.add(name);
-        return shortCriteriaPanel;
     }
 }

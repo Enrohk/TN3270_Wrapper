@@ -5,7 +5,7 @@ public class WrapperCodes {
     public static final String PROGRAM_NAME = "C:\\Program Files (x86)\\wc3270\\ws3270.exe";
 
     //s3270 console options
-    public static final String CONNECT = "connect 155.210.152.51:102";
+    public static final String CONNECT = "connect 155.210.152.51:101";
     public static final String LOGIN_ID = "\"grupo_13\"";
     public static final String LOGIN_PASS = "secreto6";
     public static final String FLIB = "FLIB";

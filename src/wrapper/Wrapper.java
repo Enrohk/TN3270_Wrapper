@@ -1,6 +1,7 @@
 package wrapper;
 
 
+import gui.ActionsGUI;
 import tasks.Task;
 
 import java.io.*;
@@ -13,8 +14,7 @@ public class Wrapper {
     private static BufferedReader read;
     private static PrintWriter write;
     private static Process s3270;
-    private static List<Task> specificTaskList = new ArrayList<Task>();
-    private static List<Task> generalTaskList = new ArrayList<Task>();
+    private static List<Task> taskList = new ArrayList<Task>();
 
     public static void startS3270() throws IOException {
         s3270 =  Runtime.getRuntime().exec(WrapperCodes.PROGRAM_NAME);
@@ -102,13 +102,8 @@ public class Wrapper {
 
     }
 
-    public static List<Task> getSpecificTasks() {
-        return specificTaskList;
-    }
 
-    public static List<Task> getGeneralTasks() {
-        return generalTaskList;
-    }
+    public static List<Task> getTaskList() { return  taskList;}
 
     private static void enter_printtext(){
         writeInS3270(WrapperCodes.ENTER,false);
@@ -165,25 +160,14 @@ public class Wrapper {
     private static void taskParser(String line, boolean debug) {
         if(debug && line.indexOf(WrapperCodes.TASK) == 6) {
             Task newTask = Task.parseTaskFromCL(line.substring(6));
-
-            switch (newTask.getType()){
-                case WrapperCodes.SPECIFIC_TASK:
-                    addTaskToList(specificTaskList,newTask);
-                    break;
-                default:
-                    addTaskToList(generalTaskList, newTask);
-                    break;
+            try {
+                if (taskList.get(newTask.getId()) == null) {
+                    taskList.add(newTask.getId(), newTask);
+                }
+            }catch(Exception e){
+                taskList.add(newTask.getId(), newTask);
             }
-        }
-    }
-
-    private static void addTaskToList(List<Task> taskListToAdd, Task task){
-        try {
-            if (taskListToAdd.get(task.getId()) == null) {
-                taskListToAdd.add(task.getId(), task);
-            }
-        }catch(Exception e){
-            taskListToAdd.add(task.getId(), task);
+            ActionsGUI.updatePanels();
         }
     }
 

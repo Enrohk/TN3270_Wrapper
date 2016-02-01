@@ -23,9 +23,10 @@ public class Main {
                 JFrame frame = new JFrame(GUIString.TITTLE);
                 frame.add(new WrapperGUI());
                 frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                frame.setSize(1000,1000);
+                frame.setSize(500,500);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
+                frame.setResizable(false);
 
                 frame.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override

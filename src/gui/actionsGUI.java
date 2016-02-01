@@ -2,6 +2,8 @@ package gui;
 
 import tasks.Task;
 import wrapper.Wrapper;
+import wrapper.WrapperCodes;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -40,27 +42,23 @@ public class ActionsGUI {
         specificTasksPanel = specific;
     }
 
-    public static void updateGeneralPanel(){
-        generalTasksPanel.removeAll();
-        JLabel date, desc;
-        for(Task task : Wrapper.getSpecificTasks()){
-            date = new JLabel(task.getDate(),JLabel.CENTER);
-            desc = new JLabel(task.getDesc(),JLabel.CENTER);
-            specificTasksPanel.add(date);
-            specificTasksPanel.add(desc);
-        }
-    }
-
-    public static void updateSpecificPanel(){
+    public static void updatePanels(){
         specificTasksPanel.removeAll();
+        generalTasksPanel.removeAll();
         JLabel date, name, desc;
-        for(Task task : Wrapper.getSpecificTasks()){
+        for(Task task : Wrapper.getTaskList()){
             date = new JLabel(task.getDate(),JLabel.CENTER);
             name = new JLabel(task.getName(),JLabel.CENTER);
             desc = new JLabel(task.getDesc(),JLabel.CENTER);
-            specificTasksPanel.add(date);
-            specificTasksPanel.add(name);
-            specificTasksPanel.add(desc);
+            if(task.getType().equals(WrapperCodes.GENERAL_TASK)){
+                generalTasksPanel.add(date);
+                generalTasksPanel.add(desc);
+            }
+            else{
+                specificTasksPanel.add(date);
+                specificTasksPanel.add(name);
+                specificTasksPanel.add(desc);
+            }
         }
     }
 
